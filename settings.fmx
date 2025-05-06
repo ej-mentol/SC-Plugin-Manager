@@ -1,0 +1,133 @@
+object SettingsForm: TSettingsForm
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = Single
+  Caption = 'Settings'
+  ClientHeight = 148
+  ClientWidth = 708
+  Position = DesktopCenter
+  StyleBook = MainForm.StyleBook1
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object IsDefailtProfileEnabledCheckBox: TCheckBox
+    IsChecked = True
+    Position.X = 12.000000000000000000
+    Position.Y = 124.000000000000000000
+    Size.Width = 257.000000000000000000
+    Size.Height = 19.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Text = 'Generate default profile from default_plugins.txt'
+  end
+  object DefaultProfileEdit: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 2
+    Position.X = 185.000000000000000000
+    Position.Y = 8.000000000000000000
+    Size.Width = 513.000000000000000000
+    Size.Height = 32.000000000000000000
+    Size.PlatformDefault = False
+    object EllipsesEditButton1: TEllipsesEditButton
+      Touch.InteractiveGestures = [LongTap]
+      CanFocus = False
+      Cursor = crArrow
+      TextSettings.Trimming = None
+      TabOrder = 0
+    end
+  end
+  object PluginsPathEdit: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 3
+    Position.X = 185.000000000000000000
+    Position.Y = 41.000000000000000000
+    Size.Width = 513.000000000000000000
+    Size.Height = 32.000000000000000000
+    Size.PlatformDefault = False
+    object EllipsesEditButton2: TEllipsesEditButton
+      Touch.InteractiveGestures = [LongTap]
+      CanFocus = False
+      Cursor = crArrow
+      TextSettings.Trimming = None
+      TabOrder = 0
+      OnClick = EllipsesEditButton2Click
+    end
+  end
+  object Label1: TLabel
+    AutoSize = True
+    Position.X = 12.000000000000000000
+    Position.Y = 14.000000000000000000
+    Size.Width = 169.000000000000000000
+    Size.Height = 16.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Path to '#39'default_plugins.txt'#39' file:'
+    TabOrder = 4
+  end
+  object Label2: TLabel
+    AutoSize = True
+    Position.X = 12.000000000000000000
+    Position.Y = 46.000000000000000000
+    Size.Width = 145.000000000000000000
+    Size.Height = 16.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Path to '#39'plugins'#39' directory:'
+    TabOrder = 5
+  end
+  object OkButton: TButton
+    Enabled = False
+    ModalResult = 1
+    Position.X = 530.000000000000000000
+    Position.Y = 116.000000000000000000
+    Size.Width = 80.000000000000000000
+    Size.Height = 26.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 6
+    Text = 'OK'
+    TextSettings.Trimming = None
+    OnClick = OkButtonClick
+  end
+  object CancelButton: TButton
+    Cancel = True
+    Position.X = 618.000000000000000000
+    Position.Y = 116.000000000000000000
+    Size.Width = 80.000000000000000000
+    Size.Height = 26.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 7
+    Text = 'Cancel'
+    TextSettings.Trimming = None
+    OnClick = CancelButtonClick
+  end
+  object ProfilesPathEdit: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 9
+    Position.X = 185.000000000000000000
+    Position.Y = 76.000000000000000000
+    Size.Width = 513.000000000000000000
+    Size.Height = 32.000000000000000000
+    Size.PlatformDefault = False
+    object EllipsesEditButton3: TEllipsesEditButton
+      Touch.InteractiveGestures = [LongTap]
+      CanFocus = False
+      Cursor = crArrow
+      TextSettings.Trimming = None
+      TabOrder = 0
+    end
+  end
+  object Label3: TLabel
+    AutoSize = True
+    Position.X = 12.000000000000000000
+    Position.Y = 80.000000000000000000
+    Size.Width = 145.000000000000000000
+    Size.Height = 16.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Path to Profiles dyrectory:'
+    TabOrder = 10
+  end
+  object OpenDialog: TOpenDialog
+    Left = 424
+    Top = 64
+  end
+end

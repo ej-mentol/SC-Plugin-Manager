@@ -1,0 +1,75 @@
+# ==== C++Builder / RAD Studio generated files ====
+
+# IDE temporary & local config
+*.local
+*.identcache
+*.dsk
+*.stat
+*.tvsconfig
+
+# Intermediate and build files
+*.dcu
+*.dcp
+*.obj
+*.tds
+*.map
+*.bak
+*.tmp
+*.~*
+*.o
+*.a
+*.so
+*.dll
+*.bpl
+*.lib
+*.exe
+
+# System / user-specific
+*.user
+*.suo
+*.ncb
+*.sdf
+*.ipch
+
+# Auto-generated PCH — включаем, не игнорируем!
+# *_PCH1.h
+
+# IDE-specific folders
+__history/
+__recovery/
+Backup/
+
+# Common build output folders
+Win32/
+Win64/
+Android/
+OSX32/
+iOSDevice/
+iOSSimulator/
+Linux/
+
+# Custom output or intermediate folders
+Win64x/
+Win64x/Release/
+Win64x/Release/profiles/
+Win64x/Release/settings.ini
+
+# Optional: exclude final ZIPs and installers
+*.zip
+*.rar
+*.7z
+*.msi
+
+# Optional: ignore log files
+*.log
+
+# Optional: macOS clutter
+.DS_Store
+
+# Optional: Windows thumbnail/database clutter
+Thumbs.db
+desktop.ini
+
+
+LICENSED
+*.styles

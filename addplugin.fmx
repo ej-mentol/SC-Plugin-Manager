@@ -1,0 +1,82 @@
+object AddPluginForm: TAddPluginForm
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = Single
+  Caption = 'New Plugin'
+  ClientHeight = 130
+  ClientWidth = 373
+  Position = DesktopCenter
+  StyleBook = MainForm.StyleBook1
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object OkButton: TButton
+    Enabled = False
+    Position.X = 200.000000000000000000
+    Position.Y = 95.000000000000000000
+    Size.Width = 80.000000000000000000
+    Size.Height = 26.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Text = 'OK'
+    TextSettings.Trimming = None
+    OnClick = OkButtonClick
+  end
+  object CancelButton: TButton
+    Position.X = 288.000000000000000000
+    Position.Y = 95.000000000000000000
+    Size.Width = 80.000000000000000000
+    Size.Height = 26.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Text = 'Cancel'
+    TextSettings.Trimming = None
+    OnClick = CancelButtonClick
+  end
+  object FileExistsLabel: TLabel
+    Position.X = 8.000000000000000000
+    Position.Y = 70.000000000000000000
+    TabOrder = 16
+  end
+  object TopLayout: TLayout
+    Align = Top
+    Padding.Left = 5.000000000000000000
+    Padding.Top = 5.000000000000000000
+    Padding.Right = 5.000000000000000000
+    Padding.Bottom = 5.000000000000000000
+    Size.Width = 373.000000000000000000
+    Size.Height = 87.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 17
+    object ScriptEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Bottom
+      TabOrder = 17
+      Position.X = 5.000000000000000000
+      Position.Y = 50.000000000000000000
+      Size.Width = 363.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TextPrompt = 'Script Path'
+      OnChangeTracking = ScriptEditChangeTracking
+      OnExit = ScriptEditExit
+    end
+    object NameEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Top
+      TabOrder = 0
+      Position.X = 5.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 363.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TextPrompt = 'Plugin Name'
+      OnChangeTracking = NameEditChangeTracking
+      OnKeyDown = NameEditKeyDown
+      OnExit = NameEditExit
+    end
+  end
+end

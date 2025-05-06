@@ -1,0 +1,63 @@
+object InputForm: TInputForm
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = Single
+  Caption = 'SC Plugin Manager'
+  ClientHeight = 92
+  ClientWidth = 439
+  Position = DesktopCenter
+  StyleBook = MainForm.StyleBook1
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object OkButton: TButton
+    Enabled = False
+    ModalResult = 1
+    Position.X = 263.000000000000000000
+    Position.Y = 58.000000000000000000
+    Size.Width = 80.000000000000000000
+    Size.Height = 26.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Text = 'OK'
+    TextSettings.Trimming = None
+    OnClick = OkButtonClick
+  end
+  object CancelButton: TButton
+    Anchors = [akTop, akRight]
+    ModalResult = 2
+    Position.X = 351.000000000000000000
+    Position.Y = 58.000000000000000000
+    Size.Width = 80.000000000000000000
+    Size.Height = 26.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Text = 'Cancel'
+    TextSettings.Trimming = None
+    OnClick = CancelButtonClick
+  end
+  object TopLayout: TLayout
+    Align = Top
+    Padding.Left = 7.000000000000000000
+    Padding.Right = 7.000000000000000000
+    Size.Width = 439.000000000000000000
+    Size.Height = 50.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object NameEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Horizontal
+      TabOrder = 0
+      Position.X = 7.000000000000000000
+      Position.Y = 8.000000000000000000
+      Size.Width = 425.000000000000000000
+      Size.Height = 36.000000000000000000
+      Size.PlatformDefault = False
+      OnChangeTracking = NameEditChangeTracking
+      OnKeyDown = NameEditKeyDown
+    end
+  end
+end
