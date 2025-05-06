@@ -197,8 +197,8 @@ void __fastcall TGUIHandler::ToggleDefaultProfile( bool AShowDefault )
 void __fastcall TGUIHandler::LoadProfileList()
 {
 	/*
-    At this point, it's easier to clear the profile list than to
-		insert or extract the default profile at various code locations.
+		At this point, it's easier to clear the profile list than to
+			insert or extract the default profile at various code locations.
 	*/
 
 	ProfileComboBox->Clear();
@@ -214,11 +214,8 @@ void __fastcall TGUIHandler::LoadProfileList()
         ProfileComboBox->Items->Add(profileName);
 	}
 
-    if (ProfileComboBox->Items->Count > 0)
-    {
-		ProfileComboBox->ItemIndex = 0;
-	}
-	else ClearPluginsTable();
+	if (ProfileComboBox->Items->Count > 0) ProfileComboBox->ItemIndex = 0;
+		else ClearPluginsTable();
 }
 
 void __fastcall TGUIHandler::LoadDefaultProfile()
@@ -230,6 +227,7 @@ void __fastcall TGUIHandler::LoadDefaultProfile()
 			break;
 		case PluginManagerResult::ParseError:
 			ErrorMessage( L"Parsing error in '%s'. Check the syntax of the file. There may be comments in the file that are not currently supported", FSettings->PluginsFilePath );
+			// Application->Terminate();
 			break;
 		case PluginManagerResult::Success:
 			{
@@ -280,7 +278,7 @@ void __fastcall TGUIHandler::OnProfileChanged( TObject *Sender )
 		ShowPluginsList( true );
 	}
 
-void __fastcall TGUIHandler::ClearPluginsTable() { PluginsTable->RowCount = 0; }
+void __fastcall TGUIHandler::ClearPluginsTable() { PluginsTable->RowCount = 0; FPluginManager->ClearPlugins(); }
 
 TProfileInfo __fastcall TGUIHandler::GetCurrentProfileInfo()
 {
@@ -593,7 +591,7 @@ void __fastcall TGUIHandler::OnEnableDisablePluginsButton(TObject *Sender)
 
 void __fastcall TGUIHandler::OnSavePluginsListButton(TObject *Sender)
 {
-    if (SavePluginsList() != PluginManagerResult::Success)
+	if ( SavePluginsList() != PluginManagerResult::Success )
 		ErrorMessage( L"Failed to save plugins." );
 	 else Beep();
 }
@@ -607,10 +605,16 @@ void __fastcall TGUIHandler::OnExportToVdfButton(TObject *Sender)
 		return;
 	}
 
+	if ( SavePluginsList() != PluginManagerResult::Success ) ErrorMessage( L"To avoid data loss during export, the current profile is saved automatically. However, an error occurred during the saving process — the file might be corrupted or deleted." );
 	if ( FPluginManager->ExportToVdf( FSettings->PluginsFilePath ) == PluginManagerResult::Success)
 	 {
 		InfoMessage( L"Profile exported to VDF successfully." );
-        ShowPluginsList();
+		int currentIndex = ProfileComboBox->ItemIndex;
+		ProfileComboBox->BeginUpdate();
+		LoadProfileList();
+		ShowPluginsList();
+		if( currentIndex > 0 ) ProfileComboBox->ItemIndex = currentIndex;
+		ProfileComboBox->EndUpdate();
 	 }
 	else ErrorMessage( L"Failed to export profile to VDF." );
 }
@@ -676,9 +680,22 @@ void __fastcall TGUIHandler::OnPopupMenu(TObject *Sender)
 
 void __fastcall TGUIHandler::FormKeyDown(TObject *Sender, WORD &Key, System::WideChar &KeyChar, TShiftState Shift)
 {
-	if ( Key == 0x53 && Shift.Contains(ssCtrl) )
-		if( ConfirmMessage( L"Do you want to export the default profile?\nSelect 'No' to cancel this action." ) == mrYes )	OnSavePluginsListButton( FForm );
-	if( Key == 0x45 && Shift.Contains(ssCtrl) ) OnExportToVdfButton( FForm );
+	if (Key == 0x53 && Shift.Contains(ssCtrl))
+    {
+        if (ProfileComboBox->Selected != nullptr)
+        {
+            if (ProfileComboBox->Selected->TagString == L"default")
+            {
+                if (ConfirmMessage(L"Do you want to export the default profile?\nSelect 'No' to cancel this action.") == mrNo)
+					return;
+            }
+			OnSavePluginsListButton(FForm);
+        }
+	}
+	else if (Key == 0x45 && Shift.Contains(ssCtrl))
+    {
+        OnExportToVdfButton(FForm);
+	}
 }
 
 void __fastcall TGUIHandler::OnCloneProfileButton(TObject *Sender)

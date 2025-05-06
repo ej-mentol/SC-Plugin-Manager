@@ -27,13 +27,13 @@ PluginManagerResult __fastcall TPluginManager::ImportFromVdf(const String& FileN
 		auto pluginRange = root.childs.equal_range("plugin");
         if (pluginRange.first == pluginRange.second) {
             auto pluginsRange = root.childs.equal_range("plugins");
-            if (pluginsRange.first == pluginsRange.second) return PluginManagerResult::ParseError;
+			if (pluginsRange.first == pluginsRange.second) return PluginManagerResult::Success;
 
             auto& pluginsNode = *(pluginsRange.first->second);
-            pluginRange = pluginsNode.childs.equal_range("plugin");
+			pluginRange = pluginsNode.childs.equal_range("plugin");
 
-            if (pluginRange.first == pluginRange.second) return PluginManagerResult::ParseError;
-        }
+			if (pluginRange.first == pluginRange.second) return PluginManagerResult::ParseError;
+		}
 		for (auto it = pluginRange.first; it != pluginRange.second; ++it) {
             auto& plugin = *(it->second);
 
