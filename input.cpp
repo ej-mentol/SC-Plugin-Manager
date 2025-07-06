@@ -19,7 +19,7 @@ __fastcall TInputForm::TInputForm(TComponent* Owner)
 void __fastcall TInputForm::OkButtonClick(TObject *Sender)
 {
 	OkButton->ModalResult = mrNone;
-    if (NameEdit->Text.IsEmpty())
+    if ( NameEdit->Text.Trim().IsEmpty() )
 		{
 			ErrorMessage( L"This field cannot be empty" );
 			return;

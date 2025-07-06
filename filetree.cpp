@@ -13,7 +13,6 @@
 
 namespace FileTreeUtils {
 
-// Вспомогательная структура для построения дерева
 struct NodeBuildInfo {
     UnicodeString text;
     int imageIndex;
@@ -23,15 +22,24 @@ struct NodeBuildInfo {
     bool isFolder;
 };
 
-// Формирует относительный путь из полного с заменой разделителей на /
-UnicodeString MakeRelativePath(const UnicodeString& fullPath, const UnicodeString& rootFolder) {
-    if (fullPath.Length() <= rootFolder.Length() + 1) {
-        return {};
-    }
+//UnicodeString MakeRelativePath(const UnicodeString& fullPath, const UnicodeString& rootFolder) {
+//	if (fullPath.Length() <= rootFolder.Length() + 1) {
+//		return {};
+//	}
 
-    UnicodeString result = fullPath.SubString(rootFolder.Length() + 2, fullPath.Length());
-    return StringReplace(result, L"\\", L"/", TReplaceFlags() << rfReplaceAll);
-}
+//    UnicodeString result = fullPath.SubString(rootFolder.Length() + 2, fullPath.Length());
+//	return StringReplace(result, L"\\", L"/", TReplaceFlags() << rfReplaceAll);
+//}
+
+UnicodeString MakeRelativePath(const UnicodeString& fullPath, const UnicodeString& rootFolder)
+	  {
+		UnicodeString normalizedRoot = System::Sysutils::ExcludeTrailingPathDelimiter( rootFolder );
+		if (fullPath.Length() <= normalizedRoot.Length() + 1) {
+			return {};
+		}
+		UnicodeString result = fullPath.SubString(normalizedRoot.Length() + 2, fullPath.Length());
+		return StringReplace(result, L"\\", L"/", TReplaceFlags() << rfReplaceAll);
+	}
 
 TTreeViewItem* CreateTreeItem(const NodeBuildInfo& nodeInfo, TTreeView* treeView) {
     auto newItem = new TTreeViewItem(treeView);
@@ -62,7 +70,7 @@ void BuildFileTree(
 			std::vector<NodeBuildInfo> nodeInfos;
 
 			NodeBuildInfo rootNode;
-			rootNode.text = Ioutils::TPath::GetFileName(rootFolder);
+			rootNode.text = Ioutils::TPath::GetFileName( System::Sysutils::ExcludeTrailingPathDelimiter( rootFolder ) );
 			rootNode.imageIndex = 0;
             rootNode.parentPath = {};
             rootNode.fullPath = rootFolder;

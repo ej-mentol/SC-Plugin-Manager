@@ -38,7 +38,8 @@ private:
 
     TSpeedButton *FAddProfileButton;
     TSpeedButton *FDeleteProfileButton;
-    TSpeedButton *FSettingsButton;
+    TSpeedButton *FEditProfileButton;
+	TSpeedButton *FSettingsButton;
     TButton *FSavePluginsListButton;
     TButton *FExportToVdfButton;
 	TButton *FCloneProfileButton;
@@ -86,6 +87,7 @@ private:
 	void __fastcall OnTreeViewMouseDown( TObject *Sender, TMouseButton Button, TShiftState Shift, float X, float Y );
 	void __fastcall OnPopupMenu(TObject *Sender);
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, System::WideChar &KeyChar, TShiftState Shift);
+    void __fastcall OnEditProfileButton(TObject *Sender);
     void __fastcall OnCloneProfileButton( TObject *Sender );
 };
 #endif

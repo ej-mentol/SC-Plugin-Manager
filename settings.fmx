@@ -36,6 +36,7 @@ object SettingsForm: TSettingsForm
       Cursor = crArrow
       TextSettings.Trimming = None
       TabOrder = 0
+      OnClick = EllipsesEditButton1Click
     end
   end
   object PluginsPathEdit: TEdit
@@ -114,6 +115,7 @@ object SettingsForm: TSettingsForm
       Cursor = crArrow
       TextSettings.Trimming = None
       TabOrder = 0
+      OnClick = EllipsesEditButton3Click
     end
   end
   object Label3: TLabel
@@ -127,6 +129,9 @@ object SettingsForm: TSettingsForm
     TabOrder = 10
   end
   object OpenDialog: TOpenDialog
+    FileName = 'default_plugins.txt'
+    Filter = 'Plugins List|default_plugins.txt|Text Files|*.txt|All Files|*.*'
+    Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
     Left = 424
     Top = 64
   end

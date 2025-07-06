@@ -60,15 +60,27 @@ void __fastcall TSettingsForm::CancelButtonClick(TObject *Sender)
 void __fastcall TSettingsForm::EllipsesEditButton2Click(TObject *Sender)
 {
 	UnicodeString dir = L"";
-	if( Dialogs::SelectDirectory("Select Profile Directory", PluginsPathEdit->Text, dir ) ) PluginsPathEdit->Text = dir;
+	if( Dialogs::SelectDirectory("Select 'plugins' Directory", PluginsPathEdit->Text, dir ) ) PluginsPathEdit->Text = dir;
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TSettingsForm::OnChangedTracking( TObject *Sender )
 {
 OkButton->Enabled =
-    !DefaultProfileEdit->Text.IsEmpty() &&
-    !PluginsPathEdit->Text.IsEmpty() &&
-    !ProfilesPathEdit->Text.IsEmpty();
-
+	!DefaultProfileEdit->Text.IsEmpty() &&
+	!PluginsPathEdit->Text.IsEmpty() &&
+	!ProfilesPathEdit->Text.IsEmpty();
 }
+void __fastcall TSettingsForm::EllipsesEditButton1Click(TObject *Sender)
+{
+	if( OpenDialog->Execute() ) DefaultProfileEdit->Text = OpenDialog->FileName;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TSettingsForm::EllipsesEditButton3Click(TObject *Sender)
+{
+	UnicodeString dir = L"";
+	if( Dialogs::SelectDirectory("Select Profiles Directory", ProfilesPathEdit->Text, dir ) ) ProfilesPathEdit->Text = dir;
+}
+//---------------------------------------------------------------------------
+

@@ -35,6 +35,8 @@ __published:	// IDE-managed Components
 	void __fastcall CancelButtonClick(TObject *Sender);
 	void __fastcall EllipsesEditButton2Click(TObject *Sender);
 	void __fastcall OnChangedTracking( TObject *Sender );
+	void __fastcall EllipsesEditButton1Click(TObject *Sender);
+	void __fastcall EllipsesEditButton3Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TSettingsForm(TComponent* Owner);
