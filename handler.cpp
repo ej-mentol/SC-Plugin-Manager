@@ -352,42 +352,42 @@ PluginManagerResult __fastcall TGUIHandler::SavePluginsList()
 
 void __fastcall TGUIHandler::OnDeleteProfile(TObject* Sender)
 {
-    if (ProfileComboBox->ItemIndex < 0)
-        return;
+	if (ProfileComboBox->ItemIndex < 0)
+		return;
 
-    TListBoxItem* item = ProfileComboBox->Selected;
-    if (!item)
-        return;
-    if (item->TagString == L"default") {
-        ErrorMessage(L"Unable to delete the default profile.");
-        return;
-    }
+	TListBoxItem* item = ProfileComboBox->Selected;
+	if (!item)
+		return;
+	if (item->TagString == L"default") {
+		ErrorMessage(L"Unable to delete the default profile.");
+		return;
+	}
 
-    UnicodeString profileName = item->Text;
-    UnicodeString profileFilePath = Ioutils::TPath::Combine(
-        FSettings->ProfilesFolderPath, profileName + L".json");
+	UnicodeString profileName = item->Text;
+	UnicodeString profileFilePath = Ioutils::TPath::Combine(
+		FSettings->ProfilesFolderPath, profileName + L".json");
 
-    if (!TFile::Exists(profileFilePath)) {
-        ErrorMessage(L"Profile file not found.");
-        return;
-    }
+	if (!TFile::Exists(profileFilePath)) {
+		ErrorMessage(L"Profile file not found.");
+		return;
+	}
 
-    if (ConfirmMessage(L"Are you sure you want to delete profile '%s'?",
-            profileName) != mrYes)
-        return;
-    try {
-        TFile::Delete(profileFilePath);
-        ProfileComboBox->Items->Delete(ProfileComboBox->ItemIndex);
+	if (ConfirmMessage(L"Are you sure you want to delete profile '%s'?",
+			profileName) != mrYes)
+		return;
+	try {
+		TFile::Delete(profileFilePath);
+		ProfileComboBox->Items->Delete(ProfileComboBox->ItemIndex);
 
-        if (ProfileComboBox->Count > 0)
-            ProfileComboBox->ItemIndex = 0; // ShowPluginsList(true);
-        else {
-            ClearPluginsTable();
-            FPluginManager->ClearPlugins();
-        }
-    } catch (const Exception &e) {
-        ErrorMessage(L"Error deleting profile. '%s'", e.Message);
-    }
+		if (ProfileComboBox->Count > 0)
+			ProfileComboBox->ItemIndex = 0; // ShowPluginsList(true);
+		else {
+			ClearPluginsTable();
+			FPluginManager->ClearPlugins();
+		}
+	} catch (const Exception &e) {
+		ErrorMessage(L"Error deleting profile. '%s'", e.Message);
+	}
 }
 
 bool TGUIHandler::LoadSettings()
@@ -530,74 +530,81 @@ bool TGUIHandler::IsPluginExists(const String &name, const String &path)
     if (FPluginManager->GetPluginByScriptName(path) != nullptr) {
         AlertMessage(L"A plugin script '%s' already exists.", path);
         return true;
-    }
+	}
 
-    return false;
+	return false;
 }
 
 bool TGUIHandler::AddPlugin(const String &name, const String &script)
 {
-    try {
-        FPluginManager->AddPlugin(name, script);
-        return true;
-    } catch (...) {
-        return false;
-    }
+	try {
+		FPluginManager->AddPlugin(name, script);
+		return true;
+	} catch (...) {
+		return false;
+	}
 }
 
 void __fastcall TGUIHandler::OnDeletePluginButton(TObject* Sender)
 {
-    int selectedIndex = PluginsTable->Row;
+	int selectedIndex = PluginsTable->Row;
 
-    if (selectedIndex < 0 || selectedIndex >= FPluginManager->PluginCount) {
-        AlertMessage(L"Please select a plugin to delete.");
-        return;
-    }
+	if (selectedIndex < 0 || selectedIndex >= FPluginManager->PluginCount) {
+		AlertMessage(L"Please select a plugin to delete.");
+		return;
+	}
 
-    TPlugin* plugin = FPluginManager->GetPluginByIndex(selectedIndex);
-    String pluginName = plugin ? plugin->Name : L"<unknown plugin>";
+	TPlugin* plugin = FPluginManager->GetPluginByIndex(selectedIndex);
+	String pluginName = plugin ? plugin->Name : L"<unknown plugin>";
 
-    if (ConfirmMessage(
-            L"Are you sure you want to delete '%s' from the current profile?",
-            pluginName) == mrNo)
-        return;
+	if (ConfirmMessage(
+			L"Are you sure you want to delete '%s' from the current profile?",
+			pluginName) == mrNo)
+		return;
 
-    PluginManagerResult result =
-        FPluginManager->RemovePluginByIndex(selectedIndex);
+	PluginManagerResult result =
+		FPluginManager->RemovePluginByIndex(selectedIndex);
 
-    if (result == PluginManagerResult::Success)
-        ShowPluginsList(false);
-    else if (result == PluginManagerResult::InvalidIndex)
-        ErrorMessage(L"Invalid index for deleting plugin '%s'.", pluginName);
-    else
-        ErrorMessage(L"Error occurred while deleting plugin '%s'.", pluginName);
+	if (result == PluginManagerResult::Success)
+		ShowPluginsList(false);
+	else if (result == PluginManagerResult::InvalidIndex)
+		ErrorMessage(L"Invalid index for deleting plugin '%s'.", pluginName);
+	else
+		ErrorMessage(L"Error occurred while deleting plugin '%s'.", pluginName);
 }
 
 void __fastcall TGUIHandler::OnEditProfileButton(TObject* Sender)
 {
-    TListBoxItem* currentItem = ProfileComboBox->Selected;
+	TListBoxItem* currentItem = ProfileComboBox->Selected;
+
     if (!currentItem || currentItem->TagString == L"default") {
         return;
     }
 
-    int itemIndex = currentItem->Index;
     UnicodeString oldName = currentItem->Text;
-	UnicodeString oldFilePath = Ioutils::TPath::Combine(
+    UnicodeString oldFilePath = Ioutils::TPath::Combine(
         FSettings->ProfilesFolderPath, oldName + L".json");
 
     std::unique_ptr<TInputForm> IForm(new TInputForm(FForm));
-    IForm->NameEdit->Text = oldName;
+	IForm->NameEdit->Text = oldName;
 
-    if (IForm->ShowModal() == mrOk) {
-		UnicodeString newName = Sysutils::Trim(IForm->NameEdit->Text);
+	if (IForm->ShowModal() == mrOk) {
+        UnicodeString newName = Sysutils::Trim(IForm->NameEdit->Text);
 
         if (newName.IsEmpty() || newName == oldName) {
             return;
-        }
+		}
+
         if (!Ioutils::TPath::HasValidFileNameChars(newName, false)) {
             ErrorMessage(L"Profile name contains invalid characters.");
             return;
         }
+
+		if (ProfileComboBox->Items->IndexOf(newName) != -1) {
+            ErrorMessage(L"A profile named '%s' already exists.", newName);
+            return;
+        }
+
         UnicodeString newFilePath = Ioutils::TPath::Combine(
             FSettings->ProfilesFolderPath, newName + L".json");
         if (TFile::Exists(newFilePath)) {
@@ -605,28 +612,33 @@ void __fastcall TGUIHandler::OnEditProfileButton(TObject* Sender)
             return;
         }
 
-		try {
-			TFile::Move(oldFilePath, newFilePath);
-		}
-		catch (Exception &e) {
-                ErrorMessage(L"Error renaming profile file: '%s'", e.Message);
-				return;
-            }
-			currentItem->Text = newName;
-			ProfileComboBox->ListItems[itemIndex]->ItemData->Text = newName;
+        try {
+            TFile::Move(oldFilePath, newFilePath);
         }
-	}
-
-	void __fastcall TGUIHandler::OnEnableDisablePluginsButton(TObject * Sender)
-    {
-        if (FPluginManager == nullptr || FPluginManager->PluginCount == 0) {
-            AlertMessage(L"No plugins available.");
+        catch (Exception &e) {
+            ErrorMessage(L"Error renaming profile file: '%s'", e.Message);
             return;
         }
 
-        bool anyEnabled = false;
-        for (int i = 0; i < FPluginManager->PluginCount; ++i) {
-            TPlugin* plugin = FPluginManager->GetPluginByIndex(i);
+        ProfileComboBox->BeginUpdate();
+        int CurIndex = currentItem->Index;
+        ProfileComboBox->Items->Delete(CurIndex);
+        ProfileComboBox->Items->Insert(CurIndex, newName);
+        ProfileComboBox->ItemIndex = CurIndex;
+        ProfileComboBox->EndUpdate();
+    }
+}
+
+	void __fastcall TGUIHandler::OnEnableDisablePluginsButton(TObject * Sender)
+	{
+		if (FPluginManager == nullptr || FPluginManager->PluginCount == 0) {
+			AlertMessage(L"No plugins available.");
+			return;
+		}
+
+		bool anyEnabled = false;
+		for (int i = 0; i < FPluginManager->PluginCount; ++i) {
+			TPlugin* plugin = FPluginManager->GetPluginByIndex(i);
             if (plugin && plugin->Enabled) {
                 anyEnabled = true;
                 break;
@@ -782,12 +794,12 @@ void __fastcall TGUIHandler::OnEditProfileButton(TObject* Sender)
         UnicodeString profileName = defaultName;
         while (ProfileComboBox->Items->IndexOf(profileName) >= 0 ||
                TFile::Exists(Ioutils::TPath::Combine(
-                   FSettings->ProfilesFolderPath, profileName + L".json")))
+				   FSettings->ProfilesFolderPath, profileName + L".json")))
         {
             profileName = defaultName + L" (" + IntToStr(counter++) + L")";
         }
 
-        IForm->NameEdit->Text = profileName;
+		IForm->NameEdit->Text = profileName;
 
         if (IForm->ShowModal() == mrOk) {
             profileName = Sysutils::Trim(IForm->NameEdit->Text);
@@ -812,11 +824,11 @@ void __fastcall TGUIHandler::OnEditProfileButton(TObject* Sender)
             {
                 ErrorMessage(L"Failed to save the cloned profile.");
                 return;
-            }
+			}
 
             ProfileComboBox->Items->Add(profileName);
             ProfileComboBox->ItemIndex = ProfileComboBox->Items->Count - 1;
             ShowPluginsList();
         }
-    }
+	}
 
